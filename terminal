@@ -1,0 +1,10 @@
+npx react-native init GasByGasApp
+cd GasByGasApp
+npm install @react-navigation/native @react-navigation/stack @react-navigation/bottom-tabs
+npm install react-native-safe-area-context react-native-screens
+npm install @react-native-async-storage/async-storage
+npm install react-native-vector-icons
+npm install react-native-reanimated react-native-gesture-handler
+npm install react-native-animatable
+npm install @react-native-community/blur 
+mv src/screens/HomeScreen.js src/screens/home/HomeScreen.js 

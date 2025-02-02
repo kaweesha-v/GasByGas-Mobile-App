@@ -1,0 +1,153 @@
+import { StyleSheet, ScrollView, TouchableOpacity, View, Platform } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import * as Animatable from 'react-native-animatable';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+
+const OFFERS = [
+  {
+    id: '1',
+    title: 'First Order Discount',
+    description: 'Get 10% off on your first gas cylinder order',
+    discount: '10% OFF',
+    validUntil: '2024-04-30',
+  },
+  {
+    id: '2',
+    title: 'Bulk Purchase Offer',
+    description: 'Order 3 or more cylinders and get 15% discount',
+    discount: '15% OFF',
+    validUntil: '2024-04-15',
+  },
+  {
+    id: '3',
+    title: 'Weekend Special',
+    description: 'Free delivery on weekend orders',
+    discount: 'FREE DELIVERY',
+    validUntil: '2024-04-20',
+  },
+];
+
+export default function SpecialOffersModal() {
+  const router = useRouter();
+
+  return (
+    <ScrollView style={styles.container}>
+      <ThemedView style={styles.header}>
+        <ThemedText type="title">Special Offers</ThemedText>
+        <ThemedText style={styles.subtitle}>
+          Exclusive deals just for you
+        </ThemedText>
+      </ThemedView>
+
+      {OFFERS.map((offer, index) => (
+        <Animatable.View
+          key={offer.id}
+          animation="fadeInUp"
+          delay={index * 200}
+          duration={800}
+        >
+          <ThemedView style={styles.offerCard}>
+            <View style={styles.offerBadge}>
+              <ThemedText style={styles.offerBadgeText}>
+                {offer.discount}
+              </ThemedText>
+            </View>
+            <ThemedText type="subtitle">{offer.title}</ThemedText>
+            <ThemedText style={styles.description}>
+              {offer.description}
+            </ThemedText>
+            <View style={styles.offerFooter}>
+              <ThemedText style={styles.validUntil}>
+                Valid until: {offer.validUntil}
+              </ThemedText>
+              <TouchableOpacity
+                style={styles.claimButton}
+                onPress={() => router.push('/modal/quick-order')}
+              >
+                <ThemedText style={styles.claimButtonText}>
+                  Claim Now
+                </ThemedText>
+              </TouchableOpacity>
+            </View>
+          </ThemedView>
+        </Animatable.View>
+      ))}
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    padding: 16,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  subtitle: {
+    color: '#666',
+    marginTop: 4,
+  },
+  offerCard: {
+    margin: 16,
+    padding: 16,
+    borderRadius: 12,
+    backgroundColor: '#fff',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
+  },
+  offerBadge: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+    backgroundColor: '#2196F3',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 16,
+  },
+  offerBadgeText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  description: {
+    color: '#666',
+    marginTop: 8,
+    marginBottom: 16,
+  },
+  offerFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+    paddingTop: 12,
+    marginTop: 12,
+  },
+  validUntil: {
+    color: '#666',
+    fontSize: 12,
+  },
+  claimButton: {
+    backgroundColor: '#4CAF50',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  claimButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+}); 
